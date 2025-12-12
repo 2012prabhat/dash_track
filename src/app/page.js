@@ -1,65 +1,93 @@
-import Image from "next/image";
+'use client'
+
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { SiGoogleanalytics } from "react-icons/si";
+import { MdCreditCard, MdOutlineTrackChanges } from "react-icons/md";
+import { Button } from "@/components/ui/button";
+import { FaArrowRight } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+const router = useRouter();
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="flex min-h-screen flex-col items-center justify-start bg-background p-8">
+
+      {/* Hero Section */}
+      <div className="w-full max-w-6xl text-center mt-12">
+        <h1 className="text-6xl font-bold text-white animate-fadeIn">
+          Dash Track - Financial Dashboard
+        </h1>
+        <p className="text-2xl mt-4 text-muted-foreground animate-fadeIn animation-delay-200">
+          All your finances, one powerful view.
+        </p>
+      </div>
+
+      {/* Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 animate-fadeIn animation-delay-500">
+
+        {/* Card 1 */}
+        <Card className="w-64 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <CardHeader>
+            <CardTitle className="flex justify-center text-mainCol">
+              <SiGoogleanalytics size={42} />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center text-lg font-medium">
+            Advanced Analytics
+          </CardContent>
+          <CardFooter>
+            <p className="text-center text-sm text-muted-foreground">
+              Real-time insights and detailed reports
+            </p>
+          </CardFooter>
+        </Card>
+
+        {/* Card 2 */}
+        <Card className="w-64 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <CardHeader>
+            <CardTitle className="flex justify-center text-mainCol">
+              <MdCreditCard size={42} />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center text-lg font-medium">
+            Card Management
+          </CardContent>
+          <CardFooter>
+            <p className="text-center text-sm text-muted-foreground">
+              Secure and intuitive card controls
+            </p>
+          </CardFooter>
+        </Card>
+
+        {/* Card 3 */}
+        <Card className="w-64 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <CardHeader>
+            <CardTitle className="flex justify-center text-mainCol">
+              <MdOutlineTrackChanges size={42} />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-center text-lg font-medium">
+            Transaction Tracking
+          </CardContent>
+          <CardFooter>
+            <p className="text-center text-sm text-muted-foreground">
+              Monitor every transaction in real-time
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
+
+      {/* Button */}
+      <Button onClick={() => router.push('dashboard')} className="mt-8 px-6 py-5 text-lg flex gap-2 items-center group bg-mainCol hover:bg-mainCol/90 transition text-white" >
+        Enter Dashboard
+        <FaArrowRight className="group-hover:translate-x-1 transition" />
+      </Button>
+    </main>
   );
 }
