@@ -1,77 +1,97 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
 
-  async function handleLogin(e) {
-    e.preventDefault();
+  const [email, setEmail] = useState("prabhatTest@gmail.com");
+  const [password, setPassword] = useState("prabhatTest");
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
+  const handleLogin = () => {
+    if (email === "prabhatTest@gmail.com" && password === "prabhatTest") {
+      const userData = {
+        userName: "Prabhat Kumar",
+        email: "prabhatTest@gmail.com",
+        accessToken: "demo_token_123", // dummy token
+      };
 
-    const data = await res.json();
-    if (data.success) window.location.href = "/dashboard";
-  }
+      // Store details in localStorage
+      localStorage.setItem("userDetails", JSON.stringify(userData));
 
-  async function handleGoogleLogin() {
-    /* 1. Load Google Script */
-    const google = window.google;
-
-    google.accounts.id.initialize({
-      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      callback: async (response) => {
-        const res = await fetch("/api/auth/google", {
-          method: "POST",
-          body: JSON.stringify({ credential: response.credential }),
-        });
-        const data = await res.json();
-        if (data.success) window.location.href = "/dashboard";
-      },
-    });
-
-    google.accounts.id.prompt();
-  }
+      // Redirect to dashboard
+      router.push("/dashboard");
+    } else {
+      alert("Invalid login details!");
+    }
+  };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-background">
-      <div className=" p-10 rounded-xl shadow-xl w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center">Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl"
+      >
+        <h2 className="text-3xl font-bold text-white text-center mb-6">
+          Welcome Back
+        </h2>
+        <p className="text-gray-300 text-center mb-8">
+          Login to continue your dashboard
+        </p>
 
-        {/* Google Button */}
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-3 border py-3 rounded-xl mt-6"
-        >
-          <FcGoogle size={24} />
-          Sign in with Google
-        </button>
-
-        <form onSubmit={handleLogin} className="mt-8 flex flex-col gap-4">
+        {/* Email Field */}
+        <div className="mb-4">
+          <label className="text-gray-300 text-sm mb-2 block">Email</label>
           <input
             type="email"
-            placeholder="Email"
-            className="border p-3 rounded-xl"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 rounded-lg bg-white/20 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            placeholder="example@gmail.com"
           />
+        </div>
 
+        {/* Password Field */}
+        <div className="mb-6">
+          <label className="text-gray-300 text-sm mb-2 block">Password</label>
           <input
             type="password"
-            placeholder="Password"
-            className="border p-3 rounded-xl"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 rounded-lg bg-white/20 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            placeholder="••••••••"
           />
+        </div>
 
-          <button className="bg-blue-600 text-white py-3 rounded-xl">
-            Login
-          </button>
-        </form>
-      </div>
-    </main>
+        {/* Login Button */}
+        <button
+          onClick={handleLogin}
+          className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 rounded-lg transition-all shadow-md"
+        >
+          Login
+        </button>
+
+        {/* Google Login */}
+        <div className="text-center my-5 text-gray-300">or</div>
+
+        <button className="w-full flex items-center justify-center gap-3 border border-white/30 hover:bg-white/10 text-white py-3 rounded-lg transition-all">
+          <FcGoogle size={24} /> Sign in with Google
+        </button>
+
+        {/* Footer */}
+        <p className="text-gray-400 text-center mt-6 text-sm">
+          Don’t have an account?{" "}
+          <Link href="/register" className="text-indigo-400 hover:underline">
+            Sign up
+          </Link>
+        </p>
+      </motion.div>
+    </div>
   );
 }
